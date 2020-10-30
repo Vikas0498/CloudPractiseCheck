@@ -1,0 +1,33 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapidockerproject-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: WebApiDockerProject
+  template:
+    metadata:
+      labels:
+        app: WebApiDockerProject
+    spec:
+      containers:
+      - name: webapidockerprojectrepos
+        image: samplecr3.azurecr.io/PracticeCheckrepos:latest
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+      - name: dsconfigsn
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapidockerproject
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: WebApiDockerProject
